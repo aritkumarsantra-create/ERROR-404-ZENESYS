@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useCustomer } from '../../context/CustomerContext';
+import { useAuth } from '../../context/AuthContext';
 import { NotificationMenu } from './NotificationMenu';
 import { CommandPalette } from './CommandPalette';
 
@@ -37,6 +38,7 @@ export const Topbar: React.FC<TopbarProps> = ({
     selectCustomer
   } = useCustomer();
 
+  const { logout } = useAuth();
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -215,10 +217,10 @@ export const Topbar: React.FC<TopbarProps> = ({
                   <div className="pt-1 border-t border-slate-100 dark:border-slate-800">
                     <button
                       onClick={() => {
-                        alert('Demo session logged out.');
+                        logout();
                         setIsProfileOpen(false);
                       }}
-                      className="w-full flex items-center gap-2 p-2 rounded-lg hover:bg-rose-500/10 text-rose-600 dark:text-rose-400 font-medium"
+                      className="w-full flex items-center gap-2 p-2 rounded-lg hover:bg-rose-500/10 text-rose-600 dark:text-rose-400 font-medium cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
