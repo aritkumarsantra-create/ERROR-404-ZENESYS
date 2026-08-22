@@ -9,3 +9,25 @@ A clean, color-coded visual meter (Red, Yellow, Green) at the top of the custome
 
 #customer 360
 #sales
+
+added - dashboard, customer directory, customer profile.
+
+added -  lead intelligence, analytics, settings.
+
+Ai impelmentation in progress.
+
+
+AI implementation done....
+
+
+AI error solved..
+
+updated file of AI
+
+ADDED - loging page
+
+ADDED - hower feature.
+
+Added- professional login startup page...
+
+...
