@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, User, BarChart2, Zap, Settings, ArrowRight, X } from 'lucide-react';
+import { Search, User, BarChart2, Zap, Settings, ArrowRight, X, Sparkles, Bot, Mail, Swords, Lightbulb } from 'lucide-react';
 import { useCustomer, NavigationTab } from '../../context/CustomerContext';
+import { useAI } from '../../context/AIContext';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -8,7 +9,14 @@ interface CommandPaletteProps {
 }
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose }) => {
-  const { customers, selectCustomer, setActiveTab } = useCustomer();
+  const { customers, selectCustomer, setActiveTab, activeCustomer } = useCustomer();
+  const {
+    setIsCopilotOpen,
+    sendCopilotMessage,
+    openEmailGenerator,
+    openSentimentInspector,
+    openAdOptimizer
+  } = useAI();
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -74,6 +82,94 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
 
         {/* Results List */}
         <div className="max-h-96 overflow-y-auto p-2 space-y-4">
+          {/* AI Query Trigger Item */}
+          {query.trim() && (
+            <div>
+              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-500 flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3" />
+                <span>Ask ZenAI Sales Copilot</span>
+              </div>
+              <button
+                onClick={() => {
+                  setIsCopilotOpen(true);
+                  sendCopilotMessage(query);
+                  onClose();
+                }}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-brand-500/10 to-indigo-500/10 hover:from-brand-500/20 hover:to-indigo-500/20 border border-brand-500/20 text-left transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-brand-500">
+                      "{query}"
+                    </div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Ask ZenAI to analyze, draft outreach, or simulate ROAS
+                    </div>
+                  </div>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-600 dark:text-brand-400">
+                  <span>Ask AI</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </button>
+            </div>
+          )}
+
+          {/* Quick AI Tools Section */}
+          <div>
+            <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              AI Sales Intelligence Tools
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+              <button
+                onClick={() => {
+                  openEmailGenerator(activeCustomer);
+                  onClose();
+                }}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-left transition-colors text-xs font-medium text-slate-700 dark:text-slate-200"
+              >
+                <Mail className="w-4 h-4 text-brand-500" />
+                <span>AI Pitch Generator</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  openSentimentInspector(activeCustomer);
+                  onClose();
+                }}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-left transition-colors text-xs font-medium text-slate-700 dark:text-slate-200"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-500" />
+                <span>NLP Sentiment Inspector</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  openAdOptimizer();
+                  onClose();
+                }}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-left transition-colors text-xs font-medium text-slate-700 dark:text-slate-200"
+              >
+                <BarChart2 className="w-4 h-4 text-cyan-500" />
+                <span>AI Ad Budget Optimizer</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsCopilotOpen(true);
+                  onClose();
+                }}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-left transition-colors text-xs font-medium text-slate-700 dark:text-slate-200"
+              >
+                <Bot className="w-4 h-4 text-indigo-500" />
+                <span>Open ZenAI Copilot (Ctrl+J)</span>
+              </button>
+            </div>
+          </div>
+
           {/* Customers section */}
           <div>
             <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Deal } from '../../types';
-import { Briefcase, CheckCircle2, Clock, Sparkles, DollarSign, ArrowRight } from 'lucide-react';
+import { Briefcase, CheckCircle2, Clock, Sparkles, DollarSign, ArrowRight, Swords } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import { useAI } from '../../context/AIContext';
+import { useCustomer } from '../../context/CustomerContext';
 
 interface DealsPipelineTabProps {
   deals: Deal[];
@@ -10,6 +12,8 @@ interface DealsPipelineTabProps {
 
 export const DealsPipelineTab: React.FC<DealsPipelineTabProps> = ({ deals, customerName }) => {
   const { success } = useToast();
+  const { openDealStrategizer } = useAI();
+  const { activeCustomer } = useCustomer();
 
   if (deals.length === 0) {
     return (
@@ -107,15 +111,25 @@ export const DealsPipelineTab: React.FC<DealsPipelineTabProps> = ({ deals, custo
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 text-xs">
+              <div className="flex flex-wrap items-center justify-between pt-2 text-xs gap-2">
                 <span className="text-slate-400">Pipeline Stage: <strong className="text-slate-700 dark:text-slate-200">{deal.stage}</strong></span>
-                <button
-                  onClick={() => success('Opportunity Advanced', `Moved "${deal.title}" to next review stage.`)}
-                  className="inline-flex items-center gap-1 text-brand-600 dark:text-brand-400 font-bold hover:underline"
-                >
-                  <span>Advance Stage</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => openDealStrategizer(deal, activeCustomer)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 dark:text-brand-400 font-bold border border-brand-500/20 transition-all active:scale-95 cursor-pointer"
+                  >
+                    <Swords className="w-3.5 h-3.5" />
+                    <span>AI Deal Strategy & Battlecards</span>
+                  </button>
+
+                  <button
+                    onClick={() => success('Opportunity Advanced', `Moved "${deal.title}" to next review stage.`)}
+                    className="inline-flex items-center gap-1 text-slate-700 dark:text-slate-300 font-bold hover:text-brand-500 transition-colors"
+                  >
+                    <span>Advance Stage</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           );

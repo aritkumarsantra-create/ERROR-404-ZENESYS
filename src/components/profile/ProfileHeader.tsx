@@ -67,14 +67,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ customer }) => {
       {/* Main Profile Info Row */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
-          <div className="relative">
+          <div className="relative group">
             <img
               src={customer.avatar}
               alt={customer.name}
-              className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover ring-4 ring-brand-500/20 shadow-lg"
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover ring-4 ring-brand-500/20 shadow-lg group-hover:scale-105 group-hover:ring-brand-500/50 transition-all duration-300"
             />
             <div
-              className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-white dark:border-card-dark flex items-center justify-center ${
+              className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-white dark:border-card-dark flex items-center justify-center transition-transform group-hover:scale-110 ${
                 customer.healthScore >= 80 ? 'bg-emerald-500' : customer.healthScore >= 60 ? 'bg-amber-500' : 'bg-rose-500'
               }`}
               title={`Health Score: ${customer.healthScore}/100`}
@@ -100,7 +100,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ customer }) => {
               {customer.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                  className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-brand-500/10 hover:text-brand-600 dark:hover:text-brand-400 transition-colors cursor-default"
                 >
                   #{tag}
                 </span>
@@ -110,7 +110,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ customer }) => {
         </div>
 
         {/* Assigned Rep Card */}
-        <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 text-xs w-full md:w-auto">
+        <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 text-xs w-full md:w-auto hover-elevate">
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">
             Assigned Sales Executive
           </span>

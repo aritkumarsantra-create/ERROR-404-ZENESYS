@@ -1,7 +1,8 @@
 import React from 'react';
-import { ShieldAlert, ShieldCheck, AlertTriangle, RefreshCw, Sparkles, MessageSquareWarning, MailCheck } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, AlertTriangle, RefreshCw, Sparkles, MessageSquareWarning, MailCheck, Bot } from 'lucide-react';
 import { Customer } from '../../types';
 import { useCustomer } from '../../context/CustomerContext';
+import { useAI } from '../../context/AIContext';
 
 interface HealthGaugeProps {
   customer: Customer;
@@ -10,6 +11,7 @@ interface HealthGaugeProps {
 
 export const HealthGauge: React.FC<HealthGaugeProps> = ({ customer, compact = false }) => {
   const { rescanSentiment, isScanningSentiment } = useCustomer();
+  const { openSentimentInspector } = useAI();
 
   const score = customer.healthScore;
   const sentimentScore = customer.sentimentScore;
@@ -83,14 +85,24 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ customer, compact = fa
             </p>
           </div>
 
-          <button
-            onClick={() => rescanSentiment(customer.id)}
-            disabled={isScanningSentiment}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300/60 dark:border-slate-700 transition-all duration-200 active:scale-95 disabled:opacity-50"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isScanningSentiment ? 'animate-spin text-brand-500' : ''}`} />
-            {isScanningSentiment ? 'Scanning Inboxes & Tickets...' : 'Re-scan Sentiment'}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => openSentimentInspector(customer)}
+              className="inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-brand-200" />
+              <span>Inspect with AI</span>
+            </button>
+
+            <button
+              onClick={() => rescanSentiment(customer.id)}
+              disabled={isScanningSentiment}
+              className="inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300/60 dark:border-slate-700 transition-all duration-200 active:scale-95 disabled:opacity-50 cursor-pointer"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isScanningSentiment ? 'animate-spin text-brand-500' : ''}`} />
+              {isScanningSentiment ? 'Scanning Inboxes...' : 'Re-scan'}
+            </button>
+          </div>
         </div>
 
         {/* Meter & Signal Breakdown Section */}

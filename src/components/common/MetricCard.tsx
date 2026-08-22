@@ -47,7 +47,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const sparklineStroke = isPositive ? '#10b981' : '#f43f5e';
 
   return (
-    <div className="relative overflow-hidden bg-card-light dark:bg-card-dark rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-card hover:shadow-card-hover transition-all duration-300 group">
+    <div className="relative overflow-hidden bg-card-light dark:bg-card-dark rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-card hover-elevate group cursor-default">
       {/* Subtle top gradient glow */}
       <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${
         accentColor === 'emerald' ? 'from-emerald-500 to-teal-400' :
@@ -55,19 +55,19 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         accentColor === 'rose' ? 'from-rose-500 to-pink-400' :
         accentColor === 'purple' ? 'from-purple-500 to-indigo-400' :
         'from-indigo-500 to-cyan-400'
-      }`} />
+      } group-hover:h-1.5 transition-all duration-300`} />
 
       <div className="flex items-start justify-between">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-brand-500 transition-colors">
             {title}
           </span>
-          <div className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white font-outfit">
+          <div className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white font-outfit group-hover:translate-x-0.5 transition-transform">
             {value}
           </div>
         </div>
 
-        <div className={`p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border ${colorStyles[accentColor]} transition-transform duration-300 group-hover:scale-110`}>
+        <div className={`p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border ${colorStyles[accentColor]} transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-xs`}>
           {iconMap[iconName] || <TrendingUp className="w-5 h-5" />}
         </div>
       </div>

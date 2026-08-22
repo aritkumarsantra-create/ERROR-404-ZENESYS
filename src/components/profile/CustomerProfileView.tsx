@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCustomer } from '../../context/CustomerContext';
+import { useAI } from '../../context/AIContext';
 import { ProfileHeader } from './ProfileHeader';
 import { HealthGauge } from '../common/HealthGauge';
 import { TimelineView } from './TimelineView';
@@ -19,7 +20,8 @@ import {
   Phone,
   Mail,
   Calendar,
-  FileText
+  FileText,
+  Bot
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 
@@ -27,6 +29,7 @@ type ProfileTab = 'timeline' | 'attribution' | 'deals' | 'ai';
 
 export const CustomerProfileView: React.FC = () => {
   const { activeCustomer } = useCustomer();
+  const { openEmailGenerator, setIsCopilotOpen } = useAI();
   const { success } = useToast();
   const [activeProfileTab, setActiveProfileTab] = useState<ProfileTab>('timeline');
 
@@ -100,31 +103,31 @@ export const CustomerProfileView: React.FC = () => {
 
         <div className="flex flex-wrap items-center gap-2">
           <button
-            onClick={() => success('Call Initiated', `Dialing ${customer.phone}...`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
+            onClick={() => openEmailGenerator(customer, customer.healthStatus === 'At Risk' ? 'churn_rescue' : 'upsell')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold shadow-xs transition-all active:scale-95 cursor-pointer"
           >
-            <Phone className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Call Customer</span>
+            <Sparkles className="w-3.5 h-3.5 text-brand-200" />
+            <span>AI Pitch Generator</span>
           </button>
 
           <button
-            onClick={() => success('Email Draft Opened', `Preparing email to ${customer.email}`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
+            onClick={() => setIsCopilotOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
           >
-            <Mail className="w-3.5 h-3.5 text-indigo-500" />
-            <span>Send Email</span>
+            <Bot className="w-3.5 h-3.5 text-brand-500" />
+            <span>Ask ZenAI Copilot</span>
           </button>
 
           <button
-            onClick={() => success('Meeting Link Created', 'Calendar invite generated for 30m demo.')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
+            onClick={() => openEmailGenerator(customer, 'qbr_review')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
           >
             <Calendar className="w-3.5 h-3.5 text-purple-500" />
             <span>Schedule QBR</span>
           </button>
 
           <button
-            onClick={() => success('Report Exported', 'Customer 360 PDF dossier generated.')}
+            onClick={() => success('Report Exported', `${customer.name}'s Customer 360 PDF dossier generated.`)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
           >
             <FileText className="w-3.5 h-3.5 text-amber-500" />

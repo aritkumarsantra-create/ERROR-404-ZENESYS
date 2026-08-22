@@ -7,9 +7,10 @@ import { useCustomer } from '../../context/CustomerContext';
 
 interface LayoutProps {
   children: React.ReactNode;
+  onReplayIntro?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, onReplayIntro }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isAddCustomerOpen, setIsAddCustomerOpen] = useState(false);
@@ -35,6 +36,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Topbar
           onOpenMobileMenu={() => setIsMobileOpen(true)}
           onOpenAddCustomer={() => setIsAddCustomerOpen(true)}
+          onReplayIntro={onReplayIntro}
         />
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">

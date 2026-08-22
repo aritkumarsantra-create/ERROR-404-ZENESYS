@@ -123,24 +123,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group relative ${
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 group relative ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-md shadow-brand-500/25'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white'
-                } ${isCollapsed ? 'justify-center px-2' : ''}`}
+                    ? 'bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-500/25'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white hover:translate-x-1'
+                } ${isCollapsed ? 'justify-center px-2 hover:translate-x-0' : ''}`}
                 title={isCollapsed ? item.label : undefined}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-brand-500'}`} />
+                {/* Active left indicator bar */}
+                {isActive && !isCollapsed && (
+                  <span className="absolute left-1 top-2 bottom-2 w-1 rounded-full bg-white shadow-xs animate-pulse" />
+                )}
+
+                <Icon
+                  className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                    isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-brand-500 group-hover:scale-110'
+                  }`}
+                />
 
                 {!isCollapsed && (
                   <>
-                    <span className="truncate flex-1 text-left">{item.label}</span>
+                    <span className="truncate flex-1 text-left font-medium">{item.label}</span>
                     {item.badge && (
                       <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-all ${
                           isActive
                             ? 'bg-white/20 text-white'
-                            : item.badgeColor || 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                            : item.badgeColor || 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-300 dark:group-hover:bg-slate-700'
                         }`}
                       >
                         {item.badge}

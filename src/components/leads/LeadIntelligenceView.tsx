@@ -35,21 +35,27 @@ export const LeadIntelligenceView: React.FC = () => {
       </div>
 
       {/* 3 Visual Lead Tiers: Hot, Warm, Cold Gauges */}
-      {isLoadingDemo ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-        </div>
-      ) : (
-        <LeadScoreGauges />
-      )}
+      <div className="stagger-1">
+        {isLoadingDemo ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        ) : (
+          <LeadScoreGauges />
+        )}
+      </div>
 
       {/* Interactive Kanban Pipeline */}
-      {isLoadingDemo ? <SkeletonChart /> : <LeadKanbanBoard />}
+      <div className="stagger-2">
+        {isLoadingDemo ? <SkeletonChart /> : <LeadKanbanBoard />}
+      </div>
 
       {/* AI Scoring Architecture Weights */}
-      <LeadScoringBreakdown />
+      <div className="stagger-3">
+        <LeadScoringBreakdown />
+      </div>
     </div>
   );
 };

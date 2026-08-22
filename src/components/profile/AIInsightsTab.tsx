@@ -1,7 +1,9 @@
 import React from 'react';
 import { AIInsight } from '../../types';
-import { Sparkles, ArrowRight, TrendingUp, AlertTriangle, Clock, Zap } from 'lucide-react';
+import { Sparkles, ArrowRight, TrendingUp, AlertTriangle, Clock, Zap, Bot } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import { useAI } from '../../context/AIContext';
+import { useCustomer } from '../../context/CustomerContext';
 
 interface AIInsightsTabProps {
   insights: AIInsight[];
@@ -10,6 +12,8 @@ interface AIInsightsTabProps {
 
 export const AIInsightsTab: React.FC<AIInsightsTabProps> = ({ insights, customerName }) => {
   const { success } = useToast();
+  const { openEmailGenerator, openSentimentInspector, setIsCopilotOpen } = useAI();
+  const { activeCustomer } = useCustomer();
 
   const getImpactBadge = (impact: 'High' | 'Medium' | 'Low') => {
     switch (impact) {
@@ -80,8 +84,18 @@ export const AIInsightsTab: React.FC<AIInsightsTabProps> = ({ insights, customer
 
             {insight.actionLabel && (
               <button
-                onClick={() => success('Action Executed', `Triggered "${insight.actionLabel}" for ${customerName}.`)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-sm transition-all active:scale-95 shrink-0"
+                onClick={() => {
+                  const label = insight.actionLabel || '';
+                  if (insight.type === 'risk') {
+                    openSentimentInspector(activeCustomer);
+                  } else if (label.toLowerCase().includes('proposal') || label.toLowerCase().includes('touchpoint') || label.toLowerCase().includes('outreach') || label.toLowerCase().includes('email')) {
+                    openEmailGenerator(activeCustomer, 'upsell');
+                  } else {
+                    setIsCopilotOpen(true);
+                  }
+                  success('AI Workflow Launched', `Executing "${label}" for ${customerName}.`);
+                }}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-sm transition-all active:scale-95 shrink-0 cursor-pointer"
               >
                 <span>{insight.actionLabel}</span>
                 <ArrowRight className="w-3.5 h-3.5" />

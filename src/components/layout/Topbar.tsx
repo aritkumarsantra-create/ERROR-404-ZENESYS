@@ -23,11 +23,13 @@ import { CommandPalette } from './CommandPalette';
 interface TopbarProps {
   onOpenMobileMenu: () => void;
   onOpenAddCustomer: () => void;
+  onReplayIntro?: () => void;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   onOpenMobileMenu,
-  onOpenAddCustomer
+  onOpenAddCustomer,
+  onReplayIntro
 }) => {
   const { theme, toggleTheme } = useTheme();
   const {
@@ -213,6 +215,19 @@ export const Topbar: React.FC<TopbarProps> = ({
                     <ShieldAlert className="w-4 h-4 text-rose-500" />
                     <span>View At-Risk Customer</span>
                   </button>
+
+                  {onReplayIntro && (
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        onReplayIntro();
+                      }}
+                      className="w-full flex items-center gap-2 p-2 rounded-lg hover:bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium cursor-pointer"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      <span>Replay Logo Intro</span>
+                    </button>
+                  )}
 
                   <div className="pt-1 border-t border-slate-100 dark:border-slate-800">
                     <button

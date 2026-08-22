@@ -39,7 +39,7 @@ export const DashboardView: React.FC = () => {
       </div>
 
       {/* KPI Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 stagger-1">
         {isLoadingDemo ? (
           <>
             <SkeletonCard />
@@ -77,10 +77,12 @@ export const DashboardView: React.FC = () => {
       </div>
 
       {/* Priority Urgent Actions Feed */}
-      <UrgentLeadsFeed />
+      <div className="stagger-2">
+        <UrgentLeadsFeed />
+      </div>
 
       {/* Main Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 stagger-3">
         <div className="lg:col-span-8">
           {isLoadingDemo ? <SkeletonChart /> : <RevenueChart />}
         </div>
@@ -90,7 +92,7 @@ export const DashboardView: React.FC = () => {
       </div>
 
       {/* Secondary Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 stagger-4">
         <div className="lg:col-span-6">
           {isLoadingDemo ? <SkeletonChart /> : <CustomerGrowthChart />}
         </div>

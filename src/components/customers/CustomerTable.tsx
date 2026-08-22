@@ -155,7 +155,7 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({ customers, onReset
               return (
                 <tr
                   key={customer.id}
-                  className={`hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group ${
+                  className={`hover:bg-slate-50/90 dark:hover:bg-slate-800/60 transition-all duration-200 group relative ${
                     isSelected ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
                   }`}
                 >
@@ -165,7 +165,7 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({ customers, onReset
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => toggleSelectOne(customer.id)}
-                      className="rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                      className="rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
                     />
                   </td>
 
@@ -175,12 +175,12 @@ export const CustomerTable: React.FC<CustomerTableProps> = ({ customers, onReset
                       <img
                         src={customer.avatar}
                         alt={customer.name}
-                        className="w-9 h-9 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-700 shrink-0"
+                        className="w-9 h-9 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-700 shrink-0 group-hover:scale-110 group-hover:ring-2 group-hover:ring-brand-500/50 transition-all duration-200 shadow-xs"
                       />
                       <div className="min-w-0">
                         <button
                           onClick={() => selectCustomer(customer.id, true)}
-                          className="font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 text-left truncate block transition-colors"
+                          className="font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 text-left truncate block transition-colors group-hover:translate-x-0.5 transform duration-150"
                         >
                           {customer.name}
                         </button>
